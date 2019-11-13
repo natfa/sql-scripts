@@ -1,4 +1,11 @@
+DROP TABLE IF EXISTS `exams`;
+DROP TABLE IF EXISTS `exam_questions`;
 DROP TABLE IF EXISTS `accounts`;
+DROP TABLE IF EXISTS `answers`;
+DROP TABLE IF EXISTS `media`;
+DROP TABLE IF EXISTS `questions`;
+DROP TABLE IF EXISTS `themes`;
+DROP TABLE IF EXISTS `subjects`;
 
 CREATE TABLE `accounts` (
   `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -6,12 +13,6 @@ CREATE TABLE `accounts` (
   `passwordhash` VARCHAR(150) NOT NULL,
   `isadmin` BOOLEAN NOT NULL
 );
-
-DROP TABLE IF EXISTS `answers`;
-DROP TABLE IF EXISTS `media`;
-DROP TABLE IF EXISTS `questions`;
-DROP TABLE IF EXISTS `themes`;
-DROP TABLE IF EXISTS `subjects`;
 
 
 CREATE TABLE `subjects` (
@@ -63,4 +64,30 @@ CREATE TABLE `media` (
   FOREIGN KEY (questionid)
     REFERENCES questions (id)
     ON DELETE CASCADE
+);
+
+
+CREATE TABLE `exams` (
+  `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `startdate` DATETIME NOT NULL,
+  `enddate` DATETIME NOT NULL,
+  `timetosolve` TIME NOT NULL,
+  `creatorid` INT UNSIGNED NOT NULL,
+  FOREIGN KEY(creatorid)
+    REFERENCES accounts (id)
+    ON DELETE RESTRICT
+);
+
+
+CREATE TABLE `exam_questions` (
+  `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `examid` INT UNSIGNED NOT NULL,
+  `questionid` INT UNSIGNED NOT NULL,
+  FOREIGN KEY (examid)
+    REFERENCES exams (id)
+    ON DELETE CASCADE,
+  FOREIGN KEY (questionid)
+    REFERENCES questions (id)
+    ON DELETE RESTRICT
 );
