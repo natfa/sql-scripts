@@ -1,7 +1,3 @@
--- Delete data
-DELETE FROM `subjects`;
-
--- Insert data
 INSERT INTO `subjects` (name) VALUES
   ("ExamCreationSubject");
 SET @sid = LAST_INSERT_ID();
