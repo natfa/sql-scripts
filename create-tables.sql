@@ -11,7 +11,7 @@ CREATE TABLE `accounts` (
   `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `email` VARCHAR(50) NOT NULL UNIQUE,
   `passwordhash` VARCHAR(150) NOT NULL,
-  `isadmin` BOOLEAN NOT NULL
+  `roles` SET('none', 'admin', 'student', 'teacher') NOT NULL DEFAULT 'none'
 );
 
 
