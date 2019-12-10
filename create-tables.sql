@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS `exam_boundaries`;
+DROP TABLE IF EXISTS `students`;
+DROP TABLE IF EXISTS `courses`;
 DROP TABLE IF EXISTS `exams`;
 DROP TABLE IF EXISTS `exam_questions`;
 DROP TABLE IF EXISTS `accounts`;
@@ -12,6 +15,26 @@ CREATE TABLE `accounts` (
   `email` VARCHAR(50) NOT NULL UNIQUE,
   `passwordhash` VARCHAR(150) NOT NULL,
   `roles` SET('none', 'admin', 'student', 'teacher') NOT NULL DEFAULT 'none'
+  -- `roles` ENUM('none', 'admin', 'student', 'teacher') NOT NULL DEFAULT 'none'
+);
+
+
+CREATE TABLE `courses` (
+  `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL UNIQUE
+);
+
+
+CREATE TABLE `students` (
+  `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `account_id` INT UNSIGNED NOT NULL,
+  `course_id` INT UNSIGNED NOT NULL,
+  FOREIGN KEY (account_id)
+    REFERENCES accounts (id)
+    ON DELETE RESTRICT,
+  FOREIGN KEY (course_id)
+    REFERENCES courses (id)
+    ON DELETE RESTRICT
 );
 
 
@@ -89,5 +112,21 @@ CREATE TABLE `exam_questions` (
     ON DELETE CASCADE,
   FOREIGN KEY (questionid)
     REFERENCES questions (id)
+    ON DELETE RESTRICT
+);
+
+CREATE TABLE `exam_boundaries` (
+  `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `exam_id` INT UNSIGNED NOT NULL,
+  `course_id` INT UNSIGNED NOT NULL,
+  `three` INT UNSIGNED NOT NULL,
+  `four` INT UNSIGNED NOT NULL,
+  `five` INT UNSIGNED NOT NULL,
+  `six` INT UNSIGNED NOT NULL,
+  FOREIGN KEY (exam_id)
+    REFERENCES exams (id)
+    ON DELETE CASCADE,
+  FOREIGN key (course_id)
+    REFERENCES courses (id)
     ON DELETE RESTRICT
 );
