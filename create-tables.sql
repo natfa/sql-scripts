@@ -1,14 +1,14 @@
 DROP TABLE IF EXISTS `exam_boundaries`;
-DROP TABLE IF EXISTS `students`;
-DROP TABLE IF EXISTS `specialties`;
-DROP TABLE IF EXISTS `exams`;
 DROP TABLE IF EXISTS `exam_questions`;
-DROP TABLE IF EXISTS `accounts`;
+DROP TABLE IF EXISTS `exams`;
 DROP TABLE IF EXISTS `answers`;
 DROP TABLE IF EXISTS `media`;
 DROP TABLE IF EXISTS `questions`;
 DROP TABLE IF EXISTS `themes`;
 DROP TABLE IF EXISTS `subjects`;
+DROP TABLE IF EXISTS `students`;
+DROP TABLE IF EXISTS `specialties`;
+DROP TABLE IF EXISTS `accounts`;
 
 CREATE TABLE `accounts` (
   `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -69,10 +69,9 @@ CREATE TABLE `questions` (
 );
 
 
-CREATE TABLE `answers` (
+CREATE TABLE `media` (
   `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `text` VARCHAR(150) NOT NULL,
-  `correct` BOOLEAN NOT NULL,
+  `content` MEDIUMBLOB NOT NULL,
   `questionid` INT UNSIGNED NOT NULL,
   FOREIGN KEY (questionid)
     REFERENCES questions (id)
@@ -80,9 +79,10 @@ CREATE TABLE `answers` (
 );
 
 
-CREATE TABLE `media` (
+CREATE TABLE `answers` (
   `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `content` MEDIUMBLOB NOT NULL,
+  `text` VARCHAR(150) NOT NULL,
+  `correct` BOOLEAN NOT NULL,
   `questionid` INT UNSIGNED NOT NULL,
   FOREIGN KEY (questionid)
     REFERENCES questions (id)
