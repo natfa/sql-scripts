@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `exam_boundaries`;
 DROP TABLE IF EXISTS `students`;
-DROP TABLE IF EXISTS `courses`;
+DROP TABLE IF EXISTS `specialties`;
 DROP TABLE IF EXISTS `exams`;
 DROP TABLE IF EXISTS `exam_questions`;
 DROP TABLE IF EXISTS `accounts`;
@@ -19,7 +19,7 @@ CREATE TABLE `accounts` (
 );
 
 
-CREATE TABLE `courses` (
+CREATE TABLE `specialties` (
   `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL UNIQUE
 );
@@ -28,12 +28,12 @@ CREATE TABLE `courses` (
 CREATE TABLE `students` (
   `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `account_id` INT UNSIGNED NOT NULL,
-  `course_id` INT UNSIGNED NOT NULL,
+  `specialty` INT UNSIGNED NOT NULL,
   FOREIGN KEY (account_id)
     REFERENCES accounts (id)
     ON DELETE RESTRICT,
-  FOREIGN KEY (course_id)
-    REFERENCES courses (id)
+  FOREIGN KEY (specialty)
+    REFERENCES specialties (id)
     ON DELETE RESTRICT
 );
 
@@ -118,7 +118,7 @@ CREATE TABLE `exam_questions` (
 CREATE TABLE `exam_boundaries` (
   `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `exam_id` INT UNSIGNED NOT NULL,
-  `course_id` INT UNSIGNED NOT NULL,
+  `specialty_id` INT UNSIGNED NOT NULL,
   `three` INT UNSIGNED NOT NULL,
   `four` INT UNSIGNED NOT NULL,
   `five` INT UNSIGNED NOT NULL,
@@ -126,7 +126,7 @@ CREATE TABLE `exam_boundaries` (
   FOREIGN KEY (exam_id)
     REFERENCES exams (id)
     ON DELETE CASCADE,
-  FOREIGN key (course_id)
-    REFERENCES courses (id)
+  FOREIGN key (specialty_id)
+    REFERENCES specialties (id)
     ON DELETE RESTRICT
 );
