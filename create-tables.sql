@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS `student_exam_answers`;
+DROP TABLE IF EXISTS `exam_grades`;
 DROP TABLE IF EXISTS `exam_boundaries`;
 DROP TABLE IF EXISTS `exam_questions`;
 DROP TABLE IF EXISTS `exams`;
@@ -28,11 +30,11 @@ CREATE TABLE `specialties` (
 CREATE TABLE `students` (
   `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `account_id` INT UNSIGNED NOT NULL,
-  `specialty` INT UNSIGNED NOT NULL,
+  `specialty_id` INT UNSIGNED NOT NULL,
   FOREIGN KEY (account_id)
     REFERENCES accounts (id)
     ON DELETE RESTRICT,
-  FOREIGN KEY (specialty)
+  FOREIGN KEY (specialty_id)
     REFERENCES specialties (id)
     ON DELETE RESTRICT
 );
@@ -128,5 +130,38 @@ CREATE TABLE `exam_boundaries` (
     ON DELETE CASCADE,
   FOREIGN key (specialty_id)
     REFERENCES specialties (id)
+    ON DELETE RESTRICT
+);
+
+CREATE TABLE `exam_grades` (
+  `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `exam_id` INT UNSIGNED NOT NULL,
+  `student_id` INT UNSIGNED NOT NULL,
+  `grade` INT UNSIGNED NOT NULL,
+  FOREIGN KEY (exam_id)
+    REFERENCES exams (id)
+    ON DELETE RESTRICT,
+  FOREIGN KEY (student_id)
+    REFERENCES students (id)
+    ON DELETE RESTRICT
+);
+
+CREATE TABLE `student_exam_answers` (
+  `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `student_id` INT UNSIGNED NOT NULL,
+  `exam_id` INT UNSIGNED NOT NULL,
+  `question_id` INT UNSIGNED NOT NULL,
+  `answer_id` INT UNSIGNED NOT NULL,
+  FOREIGN KEY (student_id)
+    REFERENCES students (id)
+    ON DELETE CASCADE,
+  FOREIGN KEY (exam_id)
+    REFERENCES exams (id)
+    ON DELETE RESTRICT,
+  FOREIGN KEY (question_id)
+    REFERENCES questions (id)
+    ON DELETE RESTRICT,
+  FOREIGN KEY (answer_id)
+    REFERENCES answers (id)
     ON DELETE RESTRICT
 );
